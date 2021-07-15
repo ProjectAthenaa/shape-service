@@ -22,4 +22,4 @@ ENV ENVIRONMENT="Development"
 
 EXPOSE 3000 3000
 
-ENTRYPOINT ./shape_version_retriever
+ENTRYPOINT ./shape_gen
