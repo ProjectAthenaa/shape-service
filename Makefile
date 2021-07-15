@@ -3,5 +3,5 @@ compileProto:
 
 rollout:
 	doctl kubernetes cluster kubeconfig save --expiry-seconds 600 athena
-	kubectl rollout restart deployments webhook -n general
-	kubectl rollout status deployments webhook -n general
+	kubectl rollout restart deployments shape -n antibots
+	kubectl rollout status deployments shape -n antibots
