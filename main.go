@@ -18,6 +18,7 @@ func main() {
 
 	shape.RegisterShapeServer(server, services.Server{})
 
+	log.Println("Started gRPC Server on port 3000")
 	if err = server.Serve(listener); err != nil {
 		log.Fatal(err)
 	}
