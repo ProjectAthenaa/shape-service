@@ -2419,21 +2419,15 @@ func (g *GlobalHolder) FileLinker(copyindex, x, y int, heapin []string) {
 				payloadmap[platformindex] = []int{87, 105, 110, 51, 50, 0}
 				payloadmap[heightindex] = []int{54, 27}
 				payloadmap[outerHeightindex] = []int{59, 27}
+
+				tholder := []int{doNotTrackindex, operaVersionindex, oscpuindex, buildIDindex, cpuClassindex}
+				sort.Ints(tholder)
+				payloadmap[tholder[len(tholder)-1]] = append(payloadmap[tholder[len(tholder)-1]], 1)
+
 				a := []int{lastshiftindex, vendorindex, ColorDepthindex, doNotTrackindex, vendorsubindex, pixelDepthindex, availHeightindex, outerWidthindex, operaVersionindex, oscpuindex, appCodeNameindex, productindex, widthindex, userAgentindex, screenXindex, appVersionindex, appNameindex, productSubindex, buildIDindex, hardwareConcurrencyindex, cpuClassindex, screenYindex, availWidthindex, innerHeightindex, innerWidthindex, maxTouchPointsindex, devicePixelRatioindex, platformindex, heightindex, outerHeightindex}
 				sort.Ints(a)
-				for i, val := range a {
-					if i == len(a)-1 {
-						if val == doNotTrackindex || val == operaVersionindex || val == oscpuindex || val == buildIDindex || val == cpuClassindex {
-							g.P2VAL = append(g.P2VAL, payloadmap[val]...)
-							g.P2VAL = append(g.P2VAL, 1)
-						} else {
-							g.P2VAL = append(g.P2VAL, 1)
-							g.P2VAL = append(g.P2VAL, payloadmap[val]...)
-						}
-					} else
-					{
-						g.P2VAL = append(g.P2VAL, payloadmap[val]...)
-					}
+				for _, val := range a {
+					g.P2VAL = append(g.P2VAL, payloadmap[val]...)
 				}
 
 				g.PayloadOrder = append(g.PayloadOrder, 2)
