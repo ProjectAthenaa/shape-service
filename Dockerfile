@@ -17,6 +17,11 @@ FROM debian:buster-slim
 WORKDIR /app
 COPY --from=build-env /app/shape_gen /app/
 
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends ca-certificates
+
+RUN update-ca-certificates
+
 ENV REDIS_URL="rediss://default:n6luoc78ac44pgs0@test-redis-do-user-9223163-0.b.db.ondigitalocean.com:25061"
 ENV ENVIRONMENT="Development"
 
