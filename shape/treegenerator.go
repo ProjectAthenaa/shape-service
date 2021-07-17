@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"github.com/valyala/fasthttp"
 	"log"
+	"main/shape/generation"
 	"math"
 	"math/rand"
 	"regexp"
-	"shape/shape/generation"
 	"sort"
 	"strconv"
 	"strings"
@@ -15,8 +15,6 @@ import (
 )
 
 var (
-	enabled = false
-
 	globalOpArrayRegex             = regexp.MustCompile("var \\w{2}=\\[function(.*?})]")
 	globalStringArrayRegex         = regexp.MustCompile("var (\\w)=\\[\"(.*?)\"]")
 	globalTupleArrayRegex          = regexp.MustCompile("var (\\w)=\\[\\[\\[(.*?)]]]")
@@ -199,7 +197,7 @@ type GlobalHolder struct {
 	P14VAL              []int             `json:"p_14_val"`
 	P15VAL              []int             `json:"p_15_val"`
 	P16VAL              []int             `json:"p_16_val"`
-	P17VAL              []int             `json:"p_17_val"`
+	P17VAL              [][]int             `json:"p_17_val"`
 	P18VAL              []int             `json:"p_18_vval"`
 	P19VAL              []int             `json:"p_19_val"`
 	P20VAL              []int             `json:"p_20_val"`
@@ -2827,39 +2825,26 @@ func (g *GlobalHolder) FileLinker(copyindex, x, y int, heapin []string) {
 				debugvendorindex := strings.LastIndex(outstring, fmt.Sprintf("heapin[%s][\"vendor\"]", debugobjectmatch))
 				paramrenderindex := strings.LastIndex(outstring, fmt.Sprintf("heapin[%s][\"renderer\"]", paramobjectmatch))
 				paramvendorindex := strings.LastIndex(outstring, fmt.Sprintf("heapin[%s][\"vendor\"]", paramobjectmatch))
-				vendorholders := []string{
-					`Google Inc. (Intel)`,
-					`Google Inc. (AMD)`,
-					`Google Inc. (AMD)`,
-					`Google Inc.`,
-					`Google Inc. (NVIDIA)`,
-					`Google Inc. (NVIDIA)`,
-					`Google Inc. (NVIDIA)`,
+				vendorholders := [][]int{
+					{71,111,111,103,108,101,32,73,110,99,46,32,40,73,110,116,101,108,41,0},
+					{71,111,111,103,108,101,32,73,110,99,46,32,40,65,77,68,41,0},
+					{71,111,111,103,108,101,32,73,110,99,46,32,40,65,77,68,41,0},
+					{71,111,111,103,108,101,32,73,110,99,46,0},
+					{71,111,111,103,108,101,32,73,110,99,46,32,40,78,86,73,68,73,65,41,0},
+					{71,111,111,103,108,101,32,73,110,99,46,32,40,78,86,73,68,73,65,41,0},
+					{71,111,111,103,108,101,32,73,110,99,46,32,40,78,86,73,68,73,65,41,0},
 				}
-				renderrholders := []string{
-					`ANGLE (Intel, Intel(R) UHD Graphics 630 Direct3D11 vs_5_0 ps_5_0, D3D11-26.20.100.7261)`,
-					`ANGLE (AMD, Radeon RX 570 Series Direct3D11 vs_5_0 ps_5_0, D3D11-27.20.12033.2007)`,
-					`ANGLE (AMD, AMD Radeon(TM) RX Vega 11 Graphics Direct3D11 vs_5_0 ps_5_0, D3D11-27.20.1026.1003)`,
-					`Google SwiftShader`,
-					`ANGLE (NVIDIA, NVIDIA GeForce GTX 750 Direct3D11 vs_5_0 ps_5_0, D3D11-27.21.14.6192)`,
-					`ANGLE (NVIDIA, NVIDIA GeForce GTX 1050 Ti Direct3D11 vs_5_0 ps_5_0, D3D11-27.21.14.5671)`,
-					`ANGLE (NVIDIA, NVIDIA GeForce GTX 1660 SUPER Direct3D11 vs_5_0 ps_5_0, D3D11-27.21.14.5671)`,
+				renderrholders := [][]int{
+					{65,78,71,76,69,32,40,73,110,116,101,108,44,32,73,110,116,101,108,40,82,41,32,85,72,68,32,71,114,97,112,104,105,99,115,32,54,51,48,32,68,105,114,101,99,116,51,68,49,49,32,118,115,95,53,95,48,32,112,115,95,53,95,48,44,32,68,51,68,49,49,45,50,54,46,50,48,46,49,48,48,46,55,50,54,49,41,0},
+					{65,78,71,76,69,32,40,65,77,68,44,32,82,97,100,101,111,110,32,82,88,32,53,55,48,32,83,101,114,105,101,115,32,68,105,114,101,99,116,51,68,49,49,32,118,115,95,53,95,48,32,112,115,95,53,95,48,44,32,68,51,68,49,49,45,50,55,46,50,48,46,49,50,48,51,51,46,50,48,48,55,41,0},
+					{65,78,71,76,69,32,40,65,77,68,44,32,65,77,68,32,82,97,100,101,111,110,40,84,77,41,32,82,88,32,86,101,103,97,32,49,49,32,71,114,97,112,104,105,99,115,32,68,105,114,101,99,116,51,68,49,49,32,118,115,95,53,95,48,32,112,115,95,53,95,48,44,32,68,51,68,49,49,45,50,55,46,50,48,46,49,48,50,54,46,49,48,48,51,41,0},
+					{71,111,111,103,108,101,32,83,119,105,102,116,83,104,97,100,101,114,0},
+					{65,78,71,76,69,32,40,78,86,73,68,73,65,44,32,78,86,73,68,73,65,32,71,101,70,111,114,99,101,32,71,84,88,32,55,53,48,32,68,105,114,101,99,116,51,68,49,49,32,118,115,95,53,95,48,32,112,115,95,53,95,48,44,32,68,51,68,49,49,45,50,55,46,50,49,46,49,52,46,54,49,57,50,41,0},
+					{65,78,71,76,69,32,40,78,86,73,68,73,65,44,32,78,86,73,68,73,65,32,71,101,70,111,114,99,101,32,71,84,88,32,49,48,53,48,32,84,105,32,68,105,114,101,99,116,51,68,49,49,32,118,115,95,53,95,48,32,112,115,95,53,95,48,44,32,68,51,68,49,49,45,50,55,46,50,49,46,49,52,46,53,54,55,49,41,0},
+					{65,78,71,76,69,32,40,78,86,73,68,73,65,44,32,78,86,73,68,73,65,32,71,101,70,111,114,99,101,32,71,84,88,32,49,54,54,48,32,83,85,80,69,82,32,68,105,114,101,99,116,51,68,49,49,32,118,115,95,53,95,48,32,112,115,95,53,95,48,44,32,68,51,68,49,49,45,50,55,46,50,49,46,49,52,46,53,54,55,49,41,0},
 				}
 				payloadmap[paramrenderindex] = []int{87, 101, 98, 75, 105, 116, 32, 87, 101, 98, 71, 76, 0}
 				payloadmap[paramvendorindex] = []int{87, 101, 98, 75, 105, 116, 0}
-				chosen := rand.Intn(7)
-				apprender := []int{}
-				appvendor := []int{}
-				for _, char := range renderrholders[chosen]{
-					apprender = append(apprender, int(char))
-				}
-				apprender = append(apprender, 0)
-				for _, char := range vendorholders[chosen]{
-					appvendor = append(appvendor, int(char))
-				}
-				appvendor = append(appvendor, 0)
-				payloadmap[debugrenderindex] = apprender
-				payloadmap[debugvendorindex] = appvendor
 				antialiasIndex := strings.Index(outstring, "[\"antialias\"]")
 				shaderPrecisionsIndex := strings.Index(outstring, "[\"shaderPrecisions\"]")
 				maxTextureSizeIndex := strings.Index(outstring, "[\"maxTextureSize\"]")
@@ -2935,8 +2920,20 @@ func (g *GlobalHolder) FileLinker(copyindex, x, y int, heapin []string) {
 				a := []int{antialiasIndex, shaderPrecisionsIndex, maxTextureSizeIndex, dimensionsIndex, maxTextureImageUnitsIndex, paramrenderindex, paramvendorindex, debugrenderindex, debugvendorindex, maxVertexUniformVectorsIndex, maxFragmentUniformVectorsIndex, maxVertexTextureImageUnitsIndex, contextPropertiesIndex, supportedExtensionsIndex, blueBitsIndex, depthBitsIndex, greenBitsIndex, redBitsIndex, stencilBitsIndex, maxAnisotropyIndex, maxRenderbufferSizeIndex, maxVertexAttribsIndex, versionIndex, shadingLanguageVersionIndex, maxVaryingVectorsIndex, maxCubeMapTextureSizeIndex, alphaBitsIndex, maxCombinedTextureImageUnitsIndex}
 				sort.Ints(a)
 
-				for _, val := range a {
-					g.P17VAL = append(g.P17VAL, payloadmap[val]...)
+				for j, _ := range vendorholders{
+					apparr := []int{}
+					for i, val := range a {
+						if i == debugvendorindex{
+							apparr = append(apparr, vendorholders[j]...)
+						}else
+						if i == debugrenderindex{
+							apparr = append(apparr, renderrholders[j]...)
+						}else
+						{
+							apparr = append(apparr, payloadmap[val]...)
+						}
+					}
+					g.P17VAL = append(g.P17VAL, apparr)
 				}
 				g.PayloadOrder = append(g.PayloadOrder, 17)
 				for k, _ := range mapunion {
