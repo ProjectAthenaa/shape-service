@@ -3,6 +3,8 @@ package services
 import (
 	"context"
 	shape "github.com/ProjectAthenaa/sonic-core/sonic/antibots/shape"
+	"log"
+	"time"
 )
 
 type Server struct {
@@ -10,10 +12,14 @@ type Server struct {
 }
 
 func (s Server) GenHeaders(ctx context.Context, site *shape.Site) (*shape.Headers, error) {
-	globalHolder, err := getGlobalHolder(ctx, site.Value)
-	if err != nil {
-		return nil, err
-	}
+	start := time.Now()
+	//globalHolder, err := getGlobalHolder(ctx, site.Value)
+	hdrs := trgt.GenerateHeaders()
+	log.Printf("Generated Headers | %s", time.Since(start))
+	//if err != nil {
+	//	log.Println(err)
+	//	return nil, err
+	//}
 
-	return &shape.Headers{Values: globalHolder.GenerateHeaders()}, nil
+	return &shape.Headers{Values: hdrs}, nil
 }

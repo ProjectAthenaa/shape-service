@@ -2,20 +2,22 @@ package services
 
 import (
 	"context"
-	"encoding/json"
 	"github.com/ProjectAthenaa/sonic-core/sonic"
-	"github.com/go-redis/redis/v8"
 	shape "github.com/ProjectAthenaa/sonic-core/sonic/antibots/shape"
+	"github.com/go-redis/redis/v8"
+	jsoniter "github.com/json-iterator/go"
 	shapegen "shape/shape"
 )
 
 var (
-	rdb   = sonic.ConnectToRedis()
-	Sites = map[shape.SITE]string{
+	trgt, _ = getGlobalHolder(context.Background(), shape.SITE_TARGET)
+	rdb     = sonic.ConnectToRedis()
+	Sites   = map[shape.SITE]string{
 		shape.SITE_TARGET:    "shape:target",
 		shape.SITE_END:       "shape:end",
 		shape.SITE_NORDSTORM: "shape:nordstorm",
 	}
+	json = jsoniter.ConfigCompatibleWithStandardLibrary
 )
 
 func getGlobalHolder(ctx context.Context, site shape.SITE) (*shapegen.GlobalHolder, error) {
@@ -23,8 +25,8 @@ func getGlobalHolder(ctx context.Context, site shape.SITE) (*shapegen.GlobalHold
 	if err != nil && err != redis.Nil {
 		return nil, err
 	}
-
 	var gHolder *shapegen.GlobalHolder
+
 	if err = json.Unmarshal([]byte(val), &gHolder); err != nil {
 		return nil, err
 	}
