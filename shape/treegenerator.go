@@ -2142,7 +2142,7 @@ func Generator(src, basefile string) *GlobalHolder {
 		P14VAL:              []int{},
 		P15VAL:              []int{},
 		P16VAL:              []int{},
-		P17VAL:              []int{},
+		P17VAL:              [][]int{},
 		P18VAL:              []int{},
 		P20VAL:              []int{},
 		P21VAL:              []int{},
