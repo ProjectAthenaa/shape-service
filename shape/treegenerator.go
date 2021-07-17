@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/valyala/fasthttp"
 	"log"
-	"main/shape/generation"
+	"shape/shape/generation"
 	"math"
 	"math/rand"
 	"regexp"
