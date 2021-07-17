@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"github.com/valyala/fasthttp"
 	"log"
-	"shape/shape/generation"
 	"math"
 	"math/rand"
 	"regexp"
+	"shape/shape/generation"
 	"sort"
 	"strconv"
 	"strings"
@@ -15,6 +15,8 @@ import (
 )
 
 var (
+	enabled = false
+
 	globalOpArrayRegex             = regexp.MustCompile("var \\w{2}=\\[function(.*?})]")
 	globalStringArrayRegex         = regexp.MustCompile("var (\\w)=\\[\"(.*?)\"]")
 	globalTupleArrayRegex          = regexp.MustCompile("var (\\w)=\\[\\[\\[(.*?)]]]")
@@ -197,7 +199,7 @@ type GlobalHolder struct {
 	P14VAL              []int             `json:"p_14_val"`
 	P15VAL              []int             `json:"p_15_val"`
 	P16VAL              []int             `json:"p_16_val"`
-	P17VAL              [][]int             `json:"p_17_val"`
+	P17VAL              []int             `json:"p_17_val"`
 	P18VAL              []int             `json:"p_18_vval"`
 	P19VAL              []int             `json:"p_19_val"`
 	P20VAL              []int             `json:"p_20_val"`
@@ -2142,7 +2144,7 @@ func Generator(src, basefile string) *GlobalHolder {
 		P14VAL:              []int{},
 		P15VAL:              []int{},
 		P16VAL:              []int{},
-		P17VAL:              [][]int{},
+		P17VAL:              []int{},
 		P18VAL:              []int{},
 		P20VAL:              []int{},
 		P21VAL:              []int{},
@@ -2393,13 +2395,13 @@ func (g *GlobalHolder) FileLinker(copyindex, x, y int, heapin []string) {
 				payloadmap[vendorsubindex] = []int{0}
 				payloadmap[doNotTrackindex] = []int{doNotTrackval}
 				payloadmap[pixelDepthindex] = []int{24}
-
+				payloadmap[availHeightindex] = []int{54, 27}
 				payloadmap[outerWidthindex] = []int{56, 48}
 				payloadmap[operaVersionindex] = []int{operaVersionval}
 				payloadmap[oscpuindex] = []int{oscpuval}
 				payloadmap[appCodeNameindex] = []int{77, 111, 122, 105, 108, 108, 97, 0}
 				payloadmap[productindex] = []int{71, 101, 99, 107, 111, 0}
-
+				payloadmap[widthindex] = []int{44, 98}
 				payloadmap[userAgentindex] = []int{77, 111, 122, 105, 108, 108, 97, 47, 53, 46, 48, 32, 40, 87, 105, 110, 100, 111, 119, 115, 32, 78, 84, 32, 49, 48, 46, 48, 59, 32, 87, 105, 110, 54, 52, 59, 32, 120, 54, 52, 41, 32, 65, 112, 112, 108, 101, 87, 101, 98, 75, 105, 116, 47, 53, 51, 55, 46, 51, 54, 32, 40, 75, 72, 84, 77, 76, 44, 32, 108, 105, 107, 101, 32, 71, 101, 99, 107, 111, 41, 32, 67, 104, 114, 111, 109, 101, 47, 57, 49, 46, 48, 46, 52, 52, 55, 50, 46, 49, 50, 51, 32, 83, 97, 102, 97, 114, 105, 47, 53, 51, 55, 46, 51, 54, 0}
 				payloadmap[screenXindex] = []int{45, 1}
 				payloadmap[appVersionindex] = []int{53, 46, 48, 32, 40, 87, 105, 110, 100, 111, 119, 115, 32, 78, 84, 32, 49, 48, 46, 48, 59, 32, 87, 105, 110, 54, 52, 59, 32, 120, 54, 52, 41, 32, 65, 112, 112, 108, 101, 87, 101, 98, 75, 105, 116, 47, 53, 51, 55, 46, 51, 54, 32, 40, 75, 72, 84, 77, 76, 44, 32, 108, 105, 107, 101, 32, 71, 101, 99, 107, 111, 41, 32, 67, 104, 114, 111, 109, 101, 47, 57, 49, 46, 48, 46, 52, 52, 55, 50, 46, 49, 50, 51, 32, 83, 97, 102, 97, 114, 105, 47, 53, 51, 55, 46, 51, 54, 0}
@@ -2409,38 +2411,29 @@ func (g *GlobalHolder) FileLinker(copyindex, x, y int, heapin []string) {
 				payloadmap[hardwareConcurrencyindex] = []int{12}
 				payloadmap[cpuClassindex] = []int{cpuClassval}
 				payloadmap[screenYindex] = []int{0}
-
+				payloadmap[availWidthindex] = []int{57, 96}
 				payloadmap[innerHeightindex] = []int{38, 24}
 				payloadmap[innerWidthindex] = []int{41, 11}
 				payloadmap[maxTouchPointsindex] = []int{0}
 				payloadmap[devicePixelRatioindex] = []int{128, 0, 0, 0, 192, 30, 133, 243, 63}
 				payloadmap[platformindex] = []int{87, 105, 110, 51, 50, 0}
-
+				payloadmap[heightindex] = []int{54, 27}
 				payloadmap[outerHeightindex] = []int{59, 27}
-				//1040 40,32
-				//1920 60,32
-				//1920 60,32
-				//1080 56,31
-				if rand.Intn(2) == 1{
-					payloadmap[availHeightindex] = []int{54, 27}
-					payloadmap[widthindex] = []int{44, 98}
-					payloadmap[availWidthindex] = []int{57, 96}
-					payloadmap[heightindex] = []int{54, 27}
-				}else{
-					payloadmap[availHeightindex] = []int{40,32}
-					payloadmap[widthindex] = []int{60,32}
-					payloadmap[availWidthindex] = []int{60,32}
-					payloadmap[heightindex] = []int{56,31}
-				}
-
-				tholder := []int{doNotTrackindex, operaVersionindex, oscpuindex, buildIDindex, cpuClassindex}
-				sort.Ints(tholder)
-				payloadmap[tholder[len(tholder)-1]] = append(payloadmap[tholder[len(tholder)-1]], 1)
-
 				a := []int{lastshiftindex, vendorindex, ColorDepthindex, doNotTrackindex, vendorsubindex, pixelDepthindex, availHeightindex, outerWidthindex, operaVersionindex, oscpuindex, appCodeNameindex, productindex, widthindex, userAgentindex, screenXindex, appVersionindex, appNameindex, productSubindex, buildIDindex, hardwareConcurrencyindex, cpuClassindex, screenYindex, availWidthindex, innerHeightindex, innerWidthindex, maxTouchPointsindex, devicePixelRatioindex, platformindex, heightindex, outerHeightindex}
 				sort.Ints(a)
-				for _, val := range a {
-					g.P2VAL = append(g.P2VAL, payloadmap[val]...)
+				for i, val := range a {
+					if i == len(a)-1 {
+						if val == doNotTrackindex || val == operaVersionindex || val == oscpuindex || val == buildIDindex || val == cpuClassindex {
+							g.P2VAL = append(g.P2VAL, payloadmap[val]...)
+							g.P2VAL = append(g.P2VAL, 1)
+						} else {
+							g.P2VAL = append(g.P2VAL, 1)
+							g.P2VAL = append(g.P2VAL, payloadmap[val]...)
+						}
+					} else
+					{
+						g.P2VAL = append(g.P2VAL, payloadmap[val]...)
+					}
 				}
 
 				g.PayloadOrder = append(g.PayloadOrder, 2)
@@ -2448,6 +2441,7 @@ func (g *GlobalHolder) FileLinker(copyindex, x, y int, heapin []string) {
 					g.KeyCount[k]++
 					g.KeyHolderRaw[2] = append(g.KeyHolderRaw[2], k)
 				}
+				//outstring = osc
 			} else
 			if strings.Contains(outstring, "video/webm; codecs=") && !strings.Contains(outstring, "\"Andale Mono\"") { //payload4
 				payloadmap := make(map[int]int)
@@ -2825,26 +2819,17 @@ func (g *GlobalHolder) FileLinker(copyindex, x, y int, heapin []string) {
 				debugvendorindex := strings.LastIndex(outstring, fmt.Sprintf("heapin[%s][\"vendor\"]", debugobjectmatch))
 				paramrenderindex := strings.LastIndex(outstring, fmt.Sprintf("heapin[%s][\"renderer\"]", paramobjectmatch))
 				paramvendorindex := strings.LastIndex(outstring, fmt.Sprintf("heapin[%s][\"vendor\"]", paramobjectmatch))
-				vendorholders := [][]int{
-					{71,111,111,103,108,101,32,73,110,99,46,32,40,73,110,116,101,108,41,0},
-					{71,111,111,103,108,101,32,73,110,99,46,32,40,65,77,68,41,0},
-					{71,111,111,103,108,101,32,73,110,99,46,32,40,65,77,68,41,0},
-					{71,111,111,103,108,101,32,73,110,99,46,0},
-					{71,111,111,103,108,101,32,73,110,99,46,32,40,78,86,73,68,73,65,41,0},
-					{71,111,111,103,108,101,32,73,110,99,46,32,40,78,86,73,68,73,65,41,0},
-					{71,111,111,103,108,101,32,73,110,99,46,32,40,78,86,73,68,73,65,41,0},
-				}
-				renderrholders := [][]int{
-					{65,78,71,76,69,32,40,73,110,116,101,108,44,32,73,110,116,101,108,40,82,41,32,85,72,68,32,71,114,97,112,104,105,99,115,32,54,51,48,32,68,105,114,101,99,116,51,68,49,49,32,118,115,95,53,95,48,32,112,115,95,53,95,48,44,32,68,51,68,49,49,45,50,54,46,50,48,46,49,48,48,46,55,50,54,49,41,0},
-					{65,78,71,76,69,32,40,65,77,68,44,32,82,97,100,101,111,110,32,82,88,32,53,55,48,32,83,101,114,105,101,115,32,68,105,114,101,99,116,51,68,49,49,32,118,115,95,53,95,48,32,112,115,95,53,95,48,44,32,68,51,68,49,49,45,50,55,46,50,48,46,49,50,48,51,51,46,50,48,48,55,41,0},
-					{65,78,71,76,69,32,40,65,77,68,44,32,65,77,68,32,82,97,100,101,111,110,40,84,77,41,32,82,88,32,86,101,103,97,32,49,49,32,71,114,97,112,104,105,99,115,32,68,105,114,101,99,116,51,68,49,49,32,118,115,95,53,95,48,32,112,115,95,53,95,48,44,32,68,51,68,49,49,45,50,55,46,50,48,46,49,48,50,54,46,49,48,48,51,41,0},
-					{71,111,111,103,108,101,32,83,119,105,102,116,83,104,97,100,101,114,0},
-					{65,78,71,76,69,32,40,78,86,73,68,73,65,44,32,78,86,73,68,73,65,32,71,101,70,111,114,99,101,32,71,84,88,32,55,53,48,32,68,105,114,101,99,116,51,68,49,49,32,118,115,95,53,95,48,32,112,115,95,53,95,48,44,32,68,51,68,49,49,45,50,55,46,50,49,46,49,52,46,54,49,57,50,41,0},
-					{65,78,71,76,69,32,40,78,86,73,68,73,65,44,32,78,86,73,68,73,65,32,71,101,70,111,114,99,101,32,71,84,88,32,49,48,53,48,32,84,105,32,68,105,114,101,99,116,51,68,49,49,32,118,115,95,53,95,48,32,112,115,95,53,95,48,44,32,68,51,68,49,49,45,50,55,46,50,49,46,49,52,46,53,54,55,49,41,0},
-					{65,78,71,76,69,32,40,78,86,73,68,73,65,44,32,78,86,73,68,73,65,32,71,101,70,111,114,99,101,32,71,84,88,32,49,54,54,48,32,83,85,80,69,82,32,68,105,114,101,99,116,51,68,49,49,32,118,115,95,53,95,48,32,112,115,95,53,95,48,44,32,68,51,68,49,49,45,50,55,46,50,49,46,49,52,46,53,54,55,49,41,0},
-				}
+
+				//payloadmap[debugrenderindex] = []int{87,101,98,75,105,116,32,87,101,98,71,76,0}
+				//payloadmap[debugvendorindex] = []int{87,101,98,75,105,116,0}
+				//payloadmap[paramrenderindex] = []int{65,78,71,76,69,32,40,78,86,73,68,73,65,44,32,78,86,73,68,73,65,32,71,101,70,111,114,99,101,32,71,84,88,32,49,54,54,48,32,83,85,80,69,82,32,68,105,114,101,99,116,51,68,49,49,32,118,115,95,53,95,48,32,112,115,95,53,95,48,44,32,68,51,68,49,49,45,50,55,46,50,49,46,49,52,46,53,54,55,49,41,0}
+				//payloadmap[paramvendorindex] = []int{71,111,111,103,108,101,32,73,110,99,46,32,40,78,86,73,68,73,65,41,0}
+
+				//i know its flipped. it has to do with the else slice
 				payloadmap[paramrenderindex] = []int{87, 101, 98, 75, 105, 116, 32, 87, 101, 98, 71, 76, 0}
 				payloadmap[paramvendorindex] = []int{87, 101, 98, 75, 105, 116, 0}
+				payloadmap[debugrenderindex] = []int{65, 78, 71, 76, 69, 32, 40, 78, 86, 73, 68, 73, 65, 44, 32, 78, 86, 73, 68, 73, 65, 32, 71, 101, 70, 111, 114, 99, 101, 32, 71, 84, 88, 32, 49, 54, 54, 48, 32, 83, 85, 80, 69, 82, 32, 68, 105, 114, 101, 99, 116, 51, 68, 49, 49, 32, 118, 115, 95, 53, 95, 48, 32, 112, 115, 95, 53, 95, 48, 44, 32, 68, 51, 68, 49, 49, 45, 50, 55, 46, 50, 49, 46, 49, 52, 46, 53, 54, 55, 49, 41, 0}
+				payloadmap[debugvendorindex] = []int{71, 111, 111, 103, 108, 101, 32, 73, 110, 99, 46, 32, 40, 78, 86, 73, 68, 73, 65, 41, 0}
 				antialiasIndex := strings.Index(outstring, "[\"antialias\"]")
 				shaderPrecisionsIndex := strings.Index(outstring, "[\"shaderPrecisions\"]")
 				maxTextureSizeIndex := strings.Index(outstring, "[\"maxTextureSize\"]")
@@ -2920,20 +2905,9 @@ func (g *GlobalHolder) FileLinker(copyindex, x, y int, heapin []string) {
 				a := []int{antialiasIndex, shaderPrecisionsIndex, maxTextureSizeIndex, dimensionsIndex, maxTextureImageUnitsIndex, paramrenderindex, paramvendorindex, debugrenderindex, debugvendorindex, maxVertexUniformVectorsIndex, maxFragmentUniformVectorsIndex, maxVertexTextureImageUnitsIndex, contextPropertiesIndex, supportedExtensionsIndex, blueBitsIndex, depthBitsIndex, greenBitsIndex, redBitsIndex, stencilBitsIndex, maxAnisotropyIndex, maxRenderbufferSizeIndex, maxVertexAttribsIndex, versionIndex, shadingLanguageVersionIndex, maxVaryingVectorsIndex, maxCubeMapTextureSizeIndex, alphaBitsIndex, maxCombinedTextureImageUnitsIndex}
 				sort.Ints(a)
 
-				for j, _ := range vendorholders{
-					apparr := []int{}
-					for _, val := range a {
-						if val == debugvendorindex{
-							apparr = append(apparr, vendorholders[j]...)
-						}else
-						if val == debugrenderindex{
-							apparr = append(apparr, renderrholders[j]...)
-						}else
-						{
-							apparr = append(apparr, payloadmap[val]...)
-						}
-					}
-					g.P17VAL = append(g.P17VAL, apparr)
+				//outstring = tempholder
+				for _, val := range a {
+					g.P17VAL = append(g.P17VAL, payloadmap[val]...)
 				}
 				g.PayloadOrder = append(g.PayloadOrder, 17)
 				for k, _ := range mapunion {
