@@ -921,10 +921,6 @@ func (h *VersionPayloadHolder) Payload16(keyin int) []int {
 }
 func (h *VersionPayloadHolder) Payload17(keyin int) []int {
 	outarr := h.SetRandInt(keyin)
-	var IDs []string
-	for _, i := range h.P17VAL {
-		IDs = append(IDs, strconv.Itoa(i))
-	}
 	for _, val := range h.P17VAL {
 		outarr = append(outarr, val^h.RandomFromSeed())
 	}
