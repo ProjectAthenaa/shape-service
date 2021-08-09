@@ -10,6 +10,12 @@ build:
 	docker build --build-arg GH_TOKEN=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  -t athena/shape_local:1.0 .
 
 run:
+	export DEBUG=1
 	export PATH=$PATH:/usr/local/go/bin
 	export REDIS_URL=rediss://default:ncwzkvkuy09khcry@shape-do-user-9104051-0-8888.b.db.ondigitalocean.com:25061
+	go
 	go run .
+
+runDocker:
+	docker build --build-arg GH_TOKEN=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  -t athena/shape_local:1.0 .
+	docker run -e DEBUG=1 -p 3000:3000 --name shape_local athena/shape_local:1.0
