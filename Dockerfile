@@ -9,7 +9,7 @@ ADD . /app
 WORKDIR /app
 RUN --mount=type=cache,target=/root/.cache/go-build
 RUN go mod download
-RUN go build -o shape_gen
+RUN go build -ldflags "-s -w" -o shape_gen
 
 
 # final stage
