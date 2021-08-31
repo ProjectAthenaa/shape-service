@@ -5,16 +5,8 @@ import (
 	"google.golang.org/grpc"
 	"log"
 	"net"
-	"os"
-	"shape/debug"
 	"shape/services"
 )
-
-func init() {
-	if os.Getenv("DEBUG") == "1" {
-		go debug.GetShapeVersions()
-	}
-}
 
 func main() {
 	listener, err := net.Listen("tcp", ":3000")
