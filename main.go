@@ -1,7 +1,7 @@
 package main
 
 import (
-	shape "github.com/ProjectAthenaa/sonic-core/sonic/antibots/shape"
+	"github.com/ProjectAthenaa/sonic-core/sonic/antibots/shape"
 	"google.golang.org/grpc"
 	"log"
 	"net"

@@ -2,7 +2,7 @@ package services
 
 import (
 	"context"
-	shape "github.com/ProjectAthenaa/shape"
+	"github.com/ProjectAthenaa/shape"
 	protos "github.com/ProjectAthenaa/sonic-core/sonic/antibots/shape"
 )
 
