@@ -3,8 +3,8 @@ module shape
 go 1.17
 
 require (
-	github.com/ProjectAthenaa/shape v0.0.0-20210902155224-cf38edc8d968
-	github.com/ProjectAthenaa/sonic-core v0.0.0-20210902150651-7273ed639f46
+	github.com/ProjectAthenaa/shape v0.0.0-20210902211532-ea4c76c055ec
+	github.com/ProjectAthenaa/sonic-core v0.0.0-20210902174231-714ad69273ff
 	google.golang.org/grpc v1.40.0
 )
 
