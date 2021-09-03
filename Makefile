@@ -7,7 +7,7 @@ rollout:
 	kubectl rollout status deployments shape -n antibots
 
 build:
-	docker build --build-arg GH_TOKEN=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  -t athena/shape_local:1.0 .
+	docker build --build-arg GH_TOKEN=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  -t athena/shape_local:1.0 .
 
 run:
 	export DEBUG=1
