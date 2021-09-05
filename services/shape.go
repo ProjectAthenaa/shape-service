@@ -11,5 +11,9 @@ type Server struct {
 }
 
 func (s Server) GenHeaders(ctx context.Context, site *protos.Site) (*protos.Headers, error) {
+	if site.ResString != nil {
+		return &protos.Headers{Values: shape.GenerateHeaders(site.Value, *site.ResString)}, nil
+	}
+
 	return &protos.Headers{Values: shape.GenerateHeaders(site.Value)}, nil
 }
