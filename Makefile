@@ -19,3 +19,6 @@ run:
 runDocker:
 	docker build --build-arg GH_TOKEN=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  -t athena/shape_local:1.0 .
 	docker run -e DEBUG=1 -p 3000:3000 --name shape_local athena/shape_local:1.0
+
+tidy:
+	go mod tidy -compat=1.17
